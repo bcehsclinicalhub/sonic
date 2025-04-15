@@ -1,16 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BCEHS EPOS Schedule</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 20px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background-color: #004b8d;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    header img {
+      height: 60px;
+    }
+    h1 {
+      margin: 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background-color: #e6efff;
+      color: #004b8d;
+    }
+    tr:hover {
+      background-color: #f1f5fb;
+    }
+    .center {
+      text-align: center;
+      padding-top: 20px;
+      font-style: italic;
+    }
+  </style>
 </head>
 <body>
-  <h1>BCEHS Master Schedule</h1>
-  <div id="scheduleContainer">Loading...</div>
+
+  <header>
+    <img src="https://upload.wikimedia.org/wikipedia/en/4/4f/British_Columbia_Emergency_Health_Services_Logo.png" alt="BCEHS Logo" />
+    <h1>BCEHS Clinical Hub – Master Schedule</h1>
+  </header>
+
+  <div id="scheduleContainer" class="center">Loading schedule...</div>
 
   <script>
     const apiUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://ca.bytebloc.com/sk/Svc/getMasterSchedule/V5/BCEHS/BCEHS/d31648c6853e464aa71c9ff0be062f2a?format=XML');
-;
 
     fetch(apiUrl)
       .then(response => response.text())
@@ -18,22 +72,37 @@
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
         const entries = xmlDoc.getElementsByTagName('ScheduleMaster');
-        let html = '';
+        if (entries.length === 0) {
+          document.getElementById('scheduleContainer').textContent = 'No entries found.';
+          return;
+        }
+
+        let html = '<table><thead><tr><th>Name</th><th>Position</th><th>Start</th><th>End</th><th>Station</th></tr></thead><tbody>';
 
         for (let i = 0; i < entries.length; i++) {
           const e = entries[i];
-          const name = e.getElementsByTagName('EmployeeName')[0]?.textContent;
-          const pos = e.getElementsByTagName('Position')[0]?.textContent;
-          const start = e.getElementsByTagName('StartDate')[0]?.textContent;
-          html += `<p><strong>${name}</strong> (${pos})<br>Start: ${new Date(start).toLocaleString()}</p>`;
+          const name = e.getElementsByTagName('EmployeeName')[0]?.textContent || '-';
+          const pos = e.getElementsByTagName('Position')[0]?.textContent || '-';
+          const start = e.getElementsByTagName('StartDate')[0]?.textContent || '-';
+          const end = e.getElementsByTagName('EndDate')[0]?.textContent || '-';
+          const site = e.getElementsByTagName('Station')[0]?.textContent || '-';
+
+          html += `<tr>
+            <td>${name}</td>
+            <td>${pos}</td>
+            <td>${new Date(start).toLocaleString()}</td>
+            <td>${new Date(end).toLocaleString()}</td>
+            <td>${site}</td>
+          </tr>`;
         }
 
-        document.getElementById('scheduleContainer').innerHTML = html || 'No entries found.';
+        html += '</tbody></table>';
+        document.getElementById('scheduleContainer').innerHTML = html;
       })
       .catch(err => {
+        console.error('Error:', err);
         document.getElementById('scheduleContainer').textContent = 'Error loading schedule.';
       });
   </script>
 </body>
 </html>
-
