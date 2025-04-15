@@ -1,1 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BCEHS Master Schedule</title>
+</head>
+<body>
+  <h1>BCEHS Master Schedule</h1>
+  <div id="scheduleContainer">Loading...</div>
+
+  <script>
+    const apiUrl = 'https://ca.bytebloc.com/sk/Svc/getMasterSchedule/V5/BCEHS/BCEHS/d31648c6853e464aa71c9ff0be062f2a?format=XML';
+
+    fetch(apiUrl)
+      .then(response => response.text())
+      .then(xmlText => {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+        const entries = xmlDoc.getElementsByTagName('ScheduleMaster');
+        let html = '';
+
+        for (let i = 0; i < entries.length; i++) {
+          const e = entries[i];
+          const name = e.getElementsByTagName('EmployeeName')[0]?.textContent;
+          const pos = e.getElementsByTagName('Position')[0]?.textContent;
+          const start = e.getElementsByTagName('StartDate')[0]?.textContent;
+          html += `<p><strong>${name}</strong> (${pos})<br>Start: ${new Date(start).toLocaleString()}</p>`;
+        }
+
+        document.getElementById('scheduleContainer').innerHTML = html || 'No entries found.';
+      })
+      .catch(err => {
+        document.getElementById('scheduleContainer').textContent = 'Error loading schedule.';
+      });
+  </script>
+</body>
+</html>
 
