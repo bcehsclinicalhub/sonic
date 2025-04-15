@@ -9,7 +9,8 @@
   <div id="scheduleContainer">Loading...</div>
 
   <script>
-    const apiUrl = 'https://ca.bytebloc.com/sk/Svc/getMasterSchedule/V5/BCEHS/BCEHS/d31648c6853e464aa71c9ff0be062f2a?format=XML';
+    const apiUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://ca.bytebloc.com/sk/Svc/getMasterSchedule/V5/BCEHS/BCEHS/d31648c6853e464aa71c9ff0be062f2a?format=XML');
+;
 
     fetch(apiUrl)
       .then(response => response.text())
