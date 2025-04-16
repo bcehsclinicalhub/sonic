@@ -106,6 +106,16 @@
         }
 
         const assignments = xmlDoc.getElementsByTagName('Assignment');
+
+        console.log('ASSIGNMENT DATES:');
+[...xmlDoc.getElementsByTagName('Assignment')].forEach(a => {
+  const start = a.getElementsByTagName('StartDate')[0]?.textContent;
+  const pid = a.getElementsByTagName('ProviderId')[0]?.textContent;
+  const sid = a.getElementsByTagName('ShiftId')[0]?.textContent;
+  console.log(start, pid, sid);
+});
+
+        
         const displayRows = [];
 
         for (let a of assignments) {
