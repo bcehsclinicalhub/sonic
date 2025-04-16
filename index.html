@@ -1,21 +1,21 @@
 <script>
   const today = new Date();
-  const tomorrow = new Date();
+  const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
 
-  // Format: YYYY-MM-DD for easy string comparison
-  const todayStr = today.toISOString().split('T')[0];
-  const tomorrowStr = tomorrow.toISOString().split('T')[0];
+  // Format for filtering returned dates: 'YYYY-MM-DD'
+  const pad = n => n.toString().padStart(2, '0');
+  const formatYMD = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const todayStr = formatYMD(today);
+  const tomorrowStr = formatYMD(tomorrow);
 
-  const dateLabel = (dateStr) => {
-    const d = new Date(dateStr);
-    const options = { weekday: 'short', month: 'short', day: 'numeric' };
-    return d.toLocaleDateString(undefined, options);
-  };
+  // Format for ByteBloc API: 'DD-MMM-YYYY' (e.g., '16-APR-2025')
+  const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+  const formatByteBlocDate = (d) => `${pad(d.getDate())}-${monthNames[d.getMonth()]}-${d.getFullYear()}`;
+  const byteblocDate = formatByteBlocDate(today);
 
   const apiBase = 'https://ca.bytebloc.com/sk/Svc/getMasterSchedule/V5/BCEHS/BCEHS/d31648c6853e464aa71c9ff0be062f2a/';
-  const apiDate = todayStr.split('-').reverse().join('-'); // convert YYYY-MM-DD to DD-MM-YYYY
-  const apiUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(`${apiBase}${apiDate}?format=XML`);
+  const apiUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(`${apiBase}${byteblocDate}?format=XML`);
 
   fetch(apiUrl)
     .then(response => response.text())
@@ -26,7 +26,7 @@
       const providerMap = new Map();
       const shiftMap = new Map();
 
-      // Build Provider Map
+      // Map ProviderId → Name
       const providers = xmlDoc.getElementsByTagName('Provider');
       for (let p of providers) {
         const id = p.getElementsByTagName('ProviderId')[0]?.textContent;
@@ -34,7 +34,7 @@
         if (id) providerMap.set(id, name);
       }
 
-      // Build Shift Map
+      // Map ShiftId → { name, start, end }
       const shifts = xmlDoc.getElementsByTagName('Shift');
       for (let s of shifts) {
         const id = s.getElementsByTagName('ShiftId')[0]?.textContent;
@@ -44,48 +44,43 @@
         if (id) shiftMap.set(id, { name, start, end });
       }
 
-      // Filter and display Assignments for today or tomorrow
+      // Extract assignments for today & tomorrow
       const assignments = xmlDoc.getElementsByTagName('Assignment');
-      let relevantAssignments = [];
+      const displayRows = [];
 
       for (let a of assignments) {
         const provId = a.getElementsByTagName('ProviderId')[0]?.textContent;
         const shiftId = a.getElementsByTagName('ShiftId')[0]?.textContent;
-        const dateStr = a.getElementsByTagName('StartDate')[0]?.textContent || '';
+        const dateStr = a.getElementsByTagName('StartDate')[0]?.textContent;
 
         if (!provId || !shiftId || !dateStr) continue;
-
         if (![todayStr, tomorrowStr].includes(dateStr)) continue;
 
-        const provName = providerMap.get(provId) || 'Unknown';
+        const provider = providerMap.get(provId) || 'Unknown';
         const shift = shiftMap.get(shiftId) || { name: 'Unknown', start: '', end: '' };
 
-        relevantAssignments.push({
-          date: dateStr,
-          name: provName,
-          shiftName: shift.name,
+        const displayDate = new Date(dateStr).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+        displayRows.push({
+          date: displayDate,
+          provider,
+          shift: shift.name,
           time: `${shift.start}–${shift.end}`
         });
       }
 
-      if (relevantAssignments.length === 0) {
+      if (displayRows.length === 0) {
         document.getElementById('scheduleContainer').textContent = 'No assignments for today or tomorrow.';
         return;
       }
 
-      // Sort and display
-      relevantAssignments.sort((a, b) => {
-        if (a.date === b.date) return a.name.localeCompare(b.name);
-        return new Date(a.date) - new Date(b.date);
-      });
-
+      // Render table
       let html = '<table><thead><tr><th>Date</th><th>Provider</th><th>Shift</th><th>Time</th></tr></thead><tbody>';
-      for (let a of relevantAssignments) {
+      for (let row of displayRows) {
         html += `<tr>
-          <td>${dateLabel(a.date)}</td>
-          <td>${a.name}</td>
-          <td>${a.shiftName}</td>
-          <td>${a.time}</td>
+          <td>${row.date}</td>
+          <td>${row.provider}</td>
+          <td>${row.shift}</td>
+          <td>${row.time}</td>
         </tr>`;
       }
       html += '</tbody></table>';
