@@ -1,166 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BCEHS EPOS Schedule</title>
+  <meta charset="UTF-8">
+  <title>BCEHS Schedule</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f7fa;
-      margin: 0;
-      padding: 20px;
-    }
-    header {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      background-color: #004b8d;
-      color: white;
-      padding: 20px;
-      border-radius: 8px;
-    }
-    header img {
-      height: 60px;
-    }
-    h1 {
-      margin: 0;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 30px;
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    th, td {
-      padding: 12px 16px;
-      border-bottom: 1px solid #ddd;
-      text-align: left;
-    }
-    th {
-      background-color: #e6efff;
-      color: #004b8d;
-    }
-    tr:hover {
-      background-color: #f1f5fb;
-    }
-    .center {
-      text-align: center;
-      padding-top: 20px;
-      font-style: italic;
-    }
+    body { font-family: sans-serif; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px; border: 1px solid #ccc; }
+    th { background-color: #f0f0f0; }
   </style>
 </head>
 <body>
-
-  <header>
-    <img src="BCEHS_Logo_2.jpg" alt="BCEHS Logo" />
-    <h1>BCEHS Clinical Hub – EPOS Schedule</h1>
-  </header>
-
-  <div id="scheduleContainer" class="center">Loading schedule...</div>
-
-  <script>
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-
-    const pad = n => n.toString().padStart(2, '0');
-    const formatYMD = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
-    const todayStr = formatYMD(today);
-    const tomorrowStr = formatYMD(tomorrow);
-
-    const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-    const formatByteBlocDate = (d) => `${pad(d.getDate())}-${monthNames[d.getMonth()]}-${d.getFullYear()}`;
-    const byteblocDate = formatByteBlocDate(today);
-
-    const apiBase = 'https://ca.bytebloc.com/sk/Svc/getMasterSchedule/V5/BCEHS/BCEHS/d31648c6853e464aa71c9ff0be062f2a/';
-    const apiUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(`${apiBase}${byteblocDate}?format=XML`);
-
-    fetch(apiUrl)
-      .then(response => response.text())
-      .then(xmlText => {
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-
-        const providerMap = new Map();
-        const shiftMap = new Map();
-
-        const providers = xmlDoc.getElementsByTagName('Provider');
-        for (let p of providers) {
-          const id = p.getElementsByTagName('ProviderId')[0]?.textContent;
-          const name = `${p.getElementsByTagName('FirstName')[0]?.textContent || ''} ${p.getElementsByTagName('LastName')[0]?.textContent || ''}`.trim();
-          if (id) providerMap.set(id, name);
-        }
-
-        const shifts = xmlDoc.getElementsByTagName('Shift');
-        for (let s of shifts) {
-          const id = s.getElementsByTagName('ShiftId')[0]?.textContent;
-          const name = s.getElementsByTagName('ShiftName')[0]?.textContent || '';
-          const start = s.getElementsByTagName('ShiftStartTime')[0]?.textContent || '';
-          const end = s.getElementsByTagName('ShiftEndTime')[0]?.textContent || '';
-          if (id) shiftMap.set(id, { name, start, end });
-        }
-
-        const assignments = xmlDoc.getElementsByTagName('Assignment');
-
-        console.log('ASSIGNMENT DATES:');
-[...xmlDoc.getElementsByTagName('Assignment')].forEach(a => {
-  const start = a.getElementsByTagName('StartDate')[0]?.textContent;
-  const pid = a.getElementsByTagName('ProviderId')[0]?.textContent;
-  const sid = a.getElementsByTagName('ShiftId')[0]?.textContent;
-  console.log(start, pid, sid);
-});
-
-        
-        const displayRows = [];
-
-        for (let a of assignments) {
-          const provId = a.getElementsByTagName('ProviderId')[0]?.textContent;
-          const shiftId = a.getElementsByTagName('ShiftId')[0]?.textContent;
-          const dateStr = a.getElementsByTagName('StartDate')[0]?.textContent;
-
-          if (!provId || !shiftId || !dateStr) continue;
-          if (![todayStr, tomorrowStr].includes(dateStr)) continue;
-
-          const provider = providerMap.get(provId) || 'Unknown';
-          const shift = shiftMap.get(shiftId) || { name: 'Unknown', start: '', end: '' };
-
-          const displayDate = new Date(dateStr).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
-          displayRows.push({
-            date: displayDate,
-            provider,
-            shift: shift.name,
-            time: `${shift.start}–${shift.end}`
-          });
-        }
-
-        if (displayRows.length === 0) {
-          document.getElementById('scheduleContainer').textContent = 'No assignments for today or tomorrow.';
-          return;
-        }
-
-        let html = '<table><thead><tr><th>Date</th><th>Provider</th><th>Shift</th><th>Time</th></tr></thead><tbody>';
-        for (let row of displayRows) {
-          html += `<tr>
-            <td>${row.date}</td>
-            <td>${row.provider}</td>
-            <td>${row.shift}</td>
-            <td>${row.time}</td>
-          </tr>`;
-        }
-        html += '</tbody></table>';
-
-        document.getElementById('scheduleContainer').innerHTML = html;
-      })
-      .catch(err => {
-        console.error('Error:', err);
-        document.getElementById('scheduleContainer').textContent = 'Error loading schedule.';
-      });
-  </script>
-
+  <h1>Schedule for Today and Tomorrow</h1>
+  <div id="schedule">Loading...</div>
+  <script src="app.js"></script>
 </body>
 </html>
