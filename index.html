@@ -1,5 +1,6 @@
-const scheduleURL = 'https://ca.bytebloc.com/sk/Svc/getMasterSchedule/V5/BCEHS/BCEHS/d31648c6853e464aa71c9ff0be062f2a?format=XML';
-const userURL = 'https://ca.bytebloc.com/sk/Svc/getUserDetails/V1/BCEHS/BCEHS/d31648c6853e464aa71c9ff0be062f2a?providersonly=false';
+const proxy = 'https://corsproxy.io/?';
+const scheduleURL = proxy + encodeURIComponent('https://ca.bytebloc.com/sk/Svc/getMasterSchedule/V5/BCEHS/BCEHS/d31648c6853e464aa71c9ff0be062f2a?format=XML');
+const userURL = proxy + encodeURIComponent('https://ca.bytebloc.com/sk/Svc/getUserDetails/V1/BCEHS/BCEHS/d31648c6853e464aa71c9ff0be062f2a?providersonly=false');
 
 function parseXML(xmlStr) {
   return new window.DOMParser().parseFromString(xmlStr, "text/xml");
