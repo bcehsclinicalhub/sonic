@@ -8,21 +8,26 @@ body {
 
 /* Header styling */
 .header {
-    background-color: #005b96;
+    background-color: #004B8D; /* Updated blue color */
     color: white;
     padding: 15px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Align items (logo and title) */
     align-items: center;
+    position: relative;
 }
 
 .header h1 {
     margin: 0;
     font-size: 24px;
+    text-align: center;
+    flex-grow: 1; /* This ensures the title is centered */
 }
 
 .header img {
     height: 40px; /* Adjust logo size */
+    position: absolute; /* Position logo on the left side */
+    left: 15px; /* Adjust space from left */
 }
 
 /* Table styling */
@@ -39,7 +44,7 @@ th, td {
 }
 
 th {
-    background-color: #005b96;
+    background-color: #004B8D;
     color: white;
 }
 
