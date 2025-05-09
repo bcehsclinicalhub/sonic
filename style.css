@@ -17,6 +17,7 @@
     padding: 10px 20px;
     border-radius: 6px;
     display: inline-block;
+    margin-left: 60px; /* Adjust this until it looks visually centered */
 }
 
 .banner h1 {
