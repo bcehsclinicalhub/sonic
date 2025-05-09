@@ -8,22 +8,23 @@ body {
 .header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding-bottom: 20px;
+    justify-content: center; /* center content */
+    gap: 20px; /* spacing between logo and banner */
+    margin-bottom: 30px;
     position: relative;
 }
 
-.header img {
+.logo {
     height: 50px;
-    margin-right: auto;
+    position: absolute;
+    left: 0;
 }
 
-/* Blue banner that wraps just the text */
 .banner {
     background-color: #004B8D;
     padding: 10px 20px;
     border-radius: 6px;
-    margin: 0 auto;
+    display: inline-block;
 }
 
 .banner h1 {
@@ -33,7 +34,6 @@ body {
     text-align: center;
 }
 
-/* Table styling remains unchanged */
 table {
     width: 100%;
     border-collapse: collapse;
