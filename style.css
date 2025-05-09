@@ -1,25 +1,29 @@
 .header {
     display: flex;
     align-items: center;
-    justify-content: center; /* Center the banner horizontally */
+    justify-content: center;
     position: relative;
     margin-bottom: 30px;
 }
 
+/* Left-aligned logo */
 .logo {
     height: 50px;
     position: absolute;
-    left: 0;
+    left: 20px; /* Adds spacing from the edge */
 }
 
+/* Banner is centered absolutely with transform trick */
 .banner {
     background-color: #004B8D;
     padding: 10px 20px;
     border-radius: 6px;
-    display: inline-block;
-    margin-left: 60px; /* Adjust this until it looks visually centered */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
+/* White centered text */
 .banner h1 {
     color: white;
     margin: 0;
