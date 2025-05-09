@@ -1,44 +1,63 @@
-<div class="header">
-    <h1>BCEHS EPOS Schedule</h1>
-    <img src="BCEHS Logo.png" alt="Logo"> <!-- Replace with your actual logo URL -->
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCEHS EPOS Schedule</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-<h2>Today's Schedule</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Day</th>
-            <th>Swing</th>
-            <th>Evening</th>
-            <th>Night</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td id="day-today"></td>
-            <td id="swing-today"></td>
-            <td id="evening-today"></td>
-            <td id="night-today"></td>
-        </tr>
-    </tbody>
-</table>
+    <!-- Blue header with title and logo -->
+    <div class="header">
+        <img src="https://raw.githubusercontent.com/your-username/your-repo/main/path-to-image/logo.png" alt="Logo"> <!-- Replace with your actual logo URL -->
+        <h1>BCEHS EPOS Schedule</h1>
+    </div>
 
-<h2>Tomorrow's Schedule</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Day</th>
-            <th>Swing</th>
-            <th>Evening</th>
-            <th>Night</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td id="day-tomorrow"></td>
-            <td id="swing-tomorrow"></td>
-            <td id="evening-tomorrow"></td>
-            <td id="night-tomorrow"></td>
-        </tr>
-    </tbody>
-</table>
+    <!-- Today's Schedule -->
+    <h2>Today's Schedule</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Swing</th>
+                <th>Evening</th>
+                <th>Night</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="day-today"></td>
+                <td id="swing-today"></td>
+                <td id="evening-today"></td>
+                <td id="night-today"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Tomorrow's Schedule -->
+    <h2>Tomorrow's Schedule</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Swing</th>
+                <th>Evening</th>
+                <th>Night</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="day-tomorrow"></td>
+                <td id="swing-tomorrow"></td>
+                <td id="evening-tomorrow"></td>
+                <td id="night-tomorrow"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="schedule"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
