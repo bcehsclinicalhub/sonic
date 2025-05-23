@@ -3,91 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tesla Dashboard Links</title>
-
-  <!-- Font Awesome for icons -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    integrity="sha512-RXf+QSDCUQs6v4I5Rj8lLQ7e3Yb3i0q+KzqnmMxHOr1+2OzqRj5Od6q9Y5qZlXcJd8uJwVZHmF4p9DqEFwEtw=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
-
+  <title>Tesla Touch Dashboard</title>
   <style>
     body {
       background-color: #000;
       color: #fff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 30px 20px;
     }
-    img.logo {
+
+    .logo {
       width: 120px;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
+
     h1 {
       font-size: 2.2em;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
-    ul {
-      list-style: none;
-      padding: 0;
-      width: 100%;
-      max-width: 450px;
-    }
-    li {
-      background: #1a1a1a;
-      margin: 15px 0;
-      border-radius: 10px;
-      padding: 18px;
+
+    .link-button {
+      background-color: #1a1a1a;
+      margin: 20px auto;
+      border-radius: 16px;
+      padding: 20px;
       display: flex;
       align-items: center;
-      transition: background 0.3s;
-    }
-    li:hover {
-      background: #333;
-    }
-    a {
-      color: white;
+      justify-content: flex-start;
+      max-width: 500px;
       text-decoration: none;
-      margin-left: 15px;
-      font-size: 1.3em;
-      flex: 1;
+      color: white;
+      transition: background 0.3s;
+      touch-action: manipulation;
     }
-    i {
+
+    .link-button:hover {
+      background-color: #333;
+    }
+
+    .link-button img.icon {
+      width: 48px;
+      height: 48px;
+      margin-right: 20px;
+      flex-shrink: 0;
+    }
+
+    .link-button span {
       font-size: 1.6em;
-      width: 30px;
-      text-align: center;
+      text-align: left;
     }
   </style>
 </head>
 <body>
-  <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Tesla_Motors.svg" alt="Tesla Logo" />
-  <h1>Tesla Dashboard Links</h1>
-  <ul>
-    <li>
-      <i class="fas fa-broadcast-tower"></i>
-      <a href="https://radioplayer.vistaradio.ca/cffm" target="_blank">The Goat</a>
-    </li>
-    <li>
-      <i class="fas fa-mountain"></i>
-      <a href="https://radioplayer.vistaradio.ca/cjjm" target="_blank">The Summit</a>
-    </li>
-    <li>
-      <i class="fas fa-cloud-sun-rain"></i>
-      <a href="https://weather.gc.ca/en/location/index.html?coords=49.245,-123.115" target="_blank">The Weather</a>
-    </li>
-    <li>
-      <i class="fas fa-map-marked-alt"></i>
-      <a href="https://www.waze.com/live-map" target="_blank">Waze Maps</a>
-    </li>
-    <li>
-      <i class="fas fa-road"></i>
-      <a href="https://beta.drivebc.ca/" target="_blank">Drive BC</a>
-    </li>
-  </ul>
+  <img class="logo" src="icons/tesla.svg" alt="Tesla Logo" />
+  <h1>Tesla Dashboard</h1>
+
+  <a class="link-button" href="https://radioplayer.vistaradio.ca/cffm" target="_blank">
+    <img class="icon" src="icons/broadcast.svg" alt="Broadcast Icon" />
+    <span>The Goat</span>
+  </a>
+
+  <a class="link-button" href="https://radioplayer.vistaradio.ca/cjjm" target="_blank">
+    <img class="icon" src="icons/mountain.svg" alt="Mountain Icon" />
+    <span>The Summit</span>
+  </a>
+
+  <a class="link-button" href="https://weather.gc.ca/en/location/index.html?coords=49.245,-123.115" target="_blank">
+    <img class="icon" src="icons/weather.svg" alt="Weather Icon" />
+    <span>The Weather</span>
+  </a>
+
+  <a class="link-button" href="https://www.waze.com/live-map" target="_blank">
+    <img class="icon" src="icons/map.svg" alt="Map Icon" />
+    <span>Waze Maps</span>
+  </a>
+
+  <a class="link-button" href="https://beta.drivebc.ca/" target="_blank">
+    <img class="icon" src="icons/road.svg" alt="Road Icon" />
+    <span>Drive BC</span>
+  </a>
 </body>
 </html>
