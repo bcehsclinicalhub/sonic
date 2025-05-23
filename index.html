@@ -3,39 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sonic Dashboard</title>
+  <title>Tesla Touch Dashboard</title>
   <style>
     body {
       background-color: #000;
       color: #fff;
       font-family: sans-serif;
-      text-align: center;
-      padding: 30px 20px;
+      padding: 20px;
+      margin: 0;
     }
 
     .logo {
       width: 120px;
-      margin-bottom: 20px;
+      display: block;
+      margin: 0 auto 20px;
     }
 
     h1 {
+      text-align: center;
       font-size: 2.2em;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 900px;
+      margin: auto;
     }
 
     .link-button {
       background-color: #1a1a1a;
-      margin: 20px auto;
       border-radius: 16px;
       padding: 20px;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
-      max-width: 500px;
       text-decoration: none;
       color: white;
       transition: background 0.3s;
-      touch-action: manipulation;
     }
 
     .link-button:hover {
@@ -45,43 +51,71 @@
     .link-button img.icon {
       width: 48px;
       height: 48px;
-      margin-right: 20px;
+      margin-right: 16px;
       flex-shrink: 0;
     }
 
     .link-button span {
-      font-size: 1.6em;
-      text-align: left;
+      font-size: 1.5em;
     }
   </style>
 </head>
 <body>
-  <img class="logo" src="Tesla_Motors.svg" alt="Tesla Logo" />
-  <h1></h1>Sonic Dashboard</h1>
+  <img class="logo" src="icons/tesla.svg" alt="Tesla Logo" />
+  <h1>Tesla Dashboard</h1>
 
-  <a class="link-button" href="https://radioplayer.vistaradio.ca/cffm" target="_blank">
-    <img class="icon" src="thegoat.png" alt="Broadcast Icon" />
-    <span>The Goat</span>
-  </a>
+  <div class="grid">
+    <!-- First column of links -->
+    <a class="link-button" href="https://radioplayer.vistaradio.ca/cffm" target="_blank">
+      <img class="icon" src="icons/broadcast.svg" alt="Broadcast Icon" />
+      <span>The Goat</span>
+    </a>
 
-  <a class="link-button" href="https://radioplayer.vistaradio.ca/cjjm" target="_blank">
-    <img class="icon" src="icons/mountain.svg" alt="Mountain Icon" />
-    <span>The Summit</span>
-  </a>
+    <a class="link-button" href="https://radioplayer.vistaradio.ca/cjjm" target="_blank">
+      <img class="icon" src="icons/mountain.svg" alt="Mountain Icon" />
+      <span>The Summit</span>
+    </a>
 
-  <a class="link-button" href="https://weather.gc.ca/en/location/index.html?coords=49.245,-123.115" target="_blank">
-    <img class="icon" src="icons/weather.svg" alt="Weather Icon" />
-    <span>The Weather</span>
-  </a>
+    <a class="link-button" href="https://weather.gc.ca/en/location/index.html?coords=49.245,-123.115" target="_blank">
+      <img class="icon" src="icons/weather.svg" alt="Weather Icon" />
+      <span>The Weather</span>
+    </a>
 
-  <a class="link-button" href="https://www.waze.com/live-map" target="_blank">
-    <img class="icon" src="icons/map.svg" alt="Map Icon" />
-    <span>Waze Maps</span>
-  </a>
+    <a class="link-button" href="https://www.waze.com/live-map" target="_blank">
+      <img class="icon" src="icons/map.svg" alt="Map Icon" />
+      <span>Waze Maps</span>
+    </a>
 
-  <a class="link-button" href="https://beta.drivebc.ca/" target="_blank">
-    <img class="icon" src="icons/road.svg" alt="Road Icon" />
-    <span>Drive BC</span>
-  </a>
+    <a class="link-button" href="https://beta.drivebc.ca/" target="_blank">
+      <img class="icon" src="icons/road.svg" alt="Road Icon" />
+      <span>Drive BC</span>
+    </a>
+
+    <!-- Duplicated second column -->
+    <a class="link-button" href="https://radioplayer.vistaradio.ca/cffm" target="_blank">
+      <img class="icon" src="icons/broadcast.svg" alt="Broadcast Icon" />
+      <span>The Goat (2)</span>
+    </a>
+
+    <a class="link-button" href="https://radioplayer.vistaradio.ca/cjjm" target="_blank">
+      <img class="icon" src="icons/mountain.svg" alt="Mountain Icon" />
+      <span>The Summit (2)</span>
+    </a>
+
+    <a class="link-button" href="https://weather.gc.ca/en/location/index.html?coords=49.245,-123.115" target="_blank">
+      <img class="icon" src="icons/weather.svg" alt="Weather Icon" />
+      <span>The Weather (2)</span>
+    </a>
+
+    <a class="link-button" href="https://www.waze.com/live-map" target="_blank">
+      <img class="icon" src="icons/map.svg" alt="Map Icon" />
+      <span>Waze Maps (2)</span>
+    </a>
+
+    <a class="link-button" href="https://beta.drivebc.ca/" target="_blank">
+      <img class="icon" src="icons/road.svg" alt="Road Icon" />
+      <span>Drive BC (2)</span>
+    </a>
+  </div>
 </body>
 </html>
