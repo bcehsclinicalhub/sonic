@@ -9,8 +9,8 @@
       background-color: #000;
       color: #fff;
       font-family: sans-serif;
-      padding: 20px;
       margin: 0;
+      padding: 20px;
     }
 
     .logo {
@@ -27,9 +27,9 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: 1fr 1fr; /* Always 2 columns */
       gap: 20px;
-      max-width: 900px;
+      max-width: 1000px;
       margin: auto;
     }
 
@@ -42,6 +42,7 @@
       text-decoration: none;
       color: white;
       transition: background 0.3s;
+      touch-action: manipulation;
     }
 
     .link-button:hover {
@@ -58,6 +59,12 @@
     .link-button span {
       font-size: 1.5em;
     }
+
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: 1fr; /* Stack on small screens */
+      }
+    }
   </style>
 </head>
 <body>
@@ -65,7 +72,7 @@
   <h1>Tesla Dashboard</h1>
 
   <div class="grid">
-    <!-- First column of links -->
+    <!-- Column 1 -->
     <a class="link-button" href="https://radioplayer.vistaradio.ca/cffm" target="_blank">
       <img class="icon" src="icons/broadcast.svg" alt="Broadcast Icon" />
       <span>The Goat</span>
@@ -91,7 +98,7 @@
       <span>Drive BC</span>
     </a>
 
-    <!-- Duplicated second column -->
+    <!-- Column 2 (duplicated links for now) -->
     <a class="link-button" href="https://radioplayer.vistaradio.ca/cffm" target="_blank">
       <img class="icon" src="icons/broadcast.svg" alt="Broadcast Icon" />
       <span>The Goat (2)</span>
